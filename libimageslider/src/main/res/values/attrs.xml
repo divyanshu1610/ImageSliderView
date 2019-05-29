@@ -4,7 +4,6 @@
 
         <attr name="firstColor" format="color"/>
         <attr name="secondColor" format="color"/>
-        <attr name="sliderHeight" format="dimension"/>
 
     </declare-styleable>
 
