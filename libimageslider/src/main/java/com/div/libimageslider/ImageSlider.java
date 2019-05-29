@@ -159,7 +159,7 @@ public class ImageSlider extends View {
     }
 
 
-    int posX,posY;
+    int posX,posY,posFX,posFY;
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -172,36 +172,28 @@ public class ImageSlider extends View {
                 posY = (int)event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-
-                Log.d(TAG, "onTouchEvent: X: "+event.getX());
-
-                if(posX < event.getX())
-                    swipeRight();
-                else if(posX > event.getX())
-                    swipeLeft();
-                break;
+                posFX = (int)event.getX();
+                posFY = (int)event.getY();
+                 break;
             case MotionEvent.ACTION_UP:
-                decideIt();
+                decideIt(posFX-posX);
                 break;
             default:
                 return false;
         }
 
-        postInvalidate();
         return true;
     }
 
 
 
     private void swipeRight(){
-        midPoint+=10;
-        //postInvalidate();
+        animate(getDefaultWidth());
     }
 
 
     private void swipeLeft(){
-        midPoint-=10;
-        //postInvalidate();
+        animate(0);
     }
 
 
@@ -228,37 +220,12 @@ public class ImageSlider extends View {
 
     }
 
+    private void decideIt(int diff){
 
-
-
-
-
-
-    private void decideIt(){
-
-
-        int temp;
-
-        if(midPoint > getDefaultWidth()/2){
-
-            temp = (3*getDefaultWidth())/4;
-            if(midPoint > temp) {
-                //animate to FULL
-               animate(getDefaultWidth());
-            }else{
-                //animate to MID
-                animate(getDefaultWidth()/2);
-            }
-        }else{
-            temp = getDefaultWidth()/4;
-            if(midPoint < temp) {
-                //animate to FULL
-                animate(0);
-            }else{
-                //animate to MID
-                animate(getDefaultWidth()/2);
-            }
-        }
+        if(diff > 0)
+            swipeRight();
+        else
+            swipeLeft();
     }
 
 }
